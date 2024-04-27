@@ -1,0 +1,24 @@
+﻿@using Chat.Domain.Entities;
+@model  User
+<div class="d-flex bg-opacity-75 justify-content-center align-items-center" style="height:100vh;backdrop-filter:blur(60px)">
+    <div class="card border-info w-25 h-50 shadow-lg text-secondary-emphasis p-2">
+        <form>
+            <h3 class="text-info card-title text-center p-1 ">Login</h3>
+            <div class="m-3">
+                <label asp-for="UserName" class="col-10"></label>
+                <input asp-for="UserName" class="col-10 form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="m-3">
+                <label asp-for="Password" class="col-12"></label>
+                <input asp-for="Password" class="col-12 form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="row m-1 d-flex justify-content-center ">
+                <a class="link-info text-center">I don't have an account</a>
+                <button type="submit" class="btn btn-primary col-4">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
