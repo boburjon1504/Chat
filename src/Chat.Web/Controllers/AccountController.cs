@@ -44,6 +44,5 @@ public class AccountController(IAccountService accountService) : Controller
                 return View();
             }
             return RedirectToAction("SimpleChat", "Home");
-        return View();
     }
 }

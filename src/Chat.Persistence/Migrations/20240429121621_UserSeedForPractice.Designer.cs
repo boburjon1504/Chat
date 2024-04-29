@@ -3,6 +3,7 @@ using System;
 using Chat.Persistence.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Chat.Persistence.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    partial class ChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240429121621_UserSeedForPractice")]
+    partial class UserSeedForPractice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +66,7 @@ namespace Chat.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ChatId")
+                    b.Property<Guid>("ChatId")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsDelivered")
@@ -88,26 +91,6 @@ namespace Chat.Persistence.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8ee8d6f9-2ba4-446c-998d-368b33354f05"),
-                            Body = "Salom",
-                            IsDelivered = true,
-                            ReceiverId = new Guid("d288a320-adb3-4018-b6ce-449a124775fd"),
-                            SendAt = new DateTimeOffset(new DateTime(2024, 4, 29, 19, 31, 23, 601, DateTimeKind.Unspecified).AddTicks(9274), new TimeSpan(0, 0, 0, 0, 0)),
-                            SenderId = new Guid("5dff9d04-9a72-4cb8-bc73-63ad04078d2d")
-                        },
-                        new
-                        {
-                            Id = new Guid("2633573d-e18d-4726-8b87-46a0d3b8b188"),
-                            Body = "Ishlaring yaxshimi",
-                            IsDelivered = true,
-                            ReceiverId = new Guid("5dff9d04-9a72-4cb8-bc73-63ad04078d2d"),
-                            SendAt = new DateTimeOffset(new DateTime(2024, 4, 30, 0, 31, 23, 601, DateTimeKind.Unspecified).AddTicks(9317), new TimeSpan(0, 5, 0, 0, 0)),
-                            SenderId = new Guid("d288a320-adb3-4018-b6ce-449a124775fd")
-                        });
                 });
 
             modelBuilder.Entity("Chat.Domain.Entities.User", b =>
@@ -148,6 +131,108 @@ namespace Chat.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f07b14c1-6ab2-499d-aa80-8b971a85daf6"),
+                            Email = "jane.doe@email.com",
+                            FirstName = "John",
+                            IsOnline = false,
+                            LastName = "Doe",
+                            Password = "password",
+                            UserName = "johndoe123"
+                        },
+                        new
+                        {
+                            Id = new Guid("62070666-dbd7-4628-9f81-25076a1e483f"),
+                            Email = "alice.smith@email.com",
+                            FirstName = "Alice",
+                            IsOnline = false,
+                            LastName = "Smith",
+                            Password = "password",
+                            UserName = "alicesmith87"
+                        },
+                        new
+                        {
+                            Id = new Guid("61fd9b7f-4658-41c2-9ddb-a566d220714e"),
+                            Email = "david.lee@email.com",
+                            FirstName = "David",
+                            IsOnline = false,
+                            LastName = "Lee",
+                            Password = "password",
+                            UserName = "davidlee99"
+                        },
+                        new
+                        {
+                            Id = new Guid("4f44febc-93c8-4161-ac19-3a7b1695fc61"),
+                            Email = "emily.jones@email.com",
+                            FirstName = "Emily",
+                            IsOnline = false,
+                            LastName = "Jones",
+                            Password = "password",
+                            UserName = "emilyj2023"
+                        },
+                        new
+                        {
+                            Id = new Guid("c00ee1f8-ecbe-4bfd-b6aa-a94efc63924b"),
+                            Email = "michael.brown@email.com",
+                            FirstName = "Michael",
+                            IsOnline = false,
+                            LastName = "Brown",
+                            Password = "password",
+                            UserName = "mikebrown7"
+                        },
+                        new
+                        {
+                            Id = new Guid("36d93ea5-26a9-42b0-9383-3a2c78dceee2"),
+                            Email = "sarah.garcia@email.com",
+                            FirstName = "Sarah",
+                            IsOnline = false,
+                            LastName = "Garcia",
+                            Password = "password",
+                            UserName = "sg_2001"
+                        },
+                        new
+                        {
+                            Id = new Guid("555dc4ff-dac8-4a6c-9088-0e93b95a752b"),
+                            Email = "william.miller@email.com",
+                            FirstName = "William",
+                            IsOnline = false,
+                            LastName = "Miller",
+                            Password = "password",
+                            UserName = "wmiller10"
+                        },
+                        new
+                        {
+                            Id = new Guid("33c7eab9-ecf0-4a2e-b8c1-c4e53410ebe1"),
+                            Email = "jennifer.davis@email.com",
+                            FirstName = "Jennifer",
+                            IsOnline = false,
+                            LastName = "Davis",
+                            Password = "password",
+                            UserName = "jenniferd92"
+                        },
+                        new
+                        {
+                            Id = new Guid("9709d8cf-24f4-4958-89de-cebccc844706"),
+                            Email = "matthew.hernandez@email.com",
+                            FirstName = "Matthew",
+                            IsOnline = false,
+                            LastName = "Hernandez",
+                            Password = "password",
+                            UserName = "mherndz88"
+                        },
+                        new
+                        {
+                            Id = new Guid("a2fc1cea-6409-4861-88cc-a317522a7ae2"),
+                            Email = "ashley.young@email.com",
+                            FirstName = "Ashley",
+                            IsOnline = false,
+                            LastName = "Young",
+                            Password = "password",
+                            UserName = "ash_young95"
+                        });
                 });
 
             modelBuilder.Entity("Chat.Domain.Entities.ChatRoom", b =>
@@ -173,7 +258,9 @@ namespace Chat.Persistence.Migrations
                 {
                     b.HasOne("Chat.Domain.Entities.ChatRoom", null)
                         .WithMany()
-                        .HasForeignKey("ChatId");
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Chat.Domain.Entities.User", null)
                         .WithOne()

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace Chat.Application.Interfaces;
 public interface IUserService
 {
+    IQueryable<User> Get();
     ValueTask<IList<User>> GetAsync(CancellationToken cancellationToken);
 
     ValueTask<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);

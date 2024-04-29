@@ -22,17 +22,18 @@
 
             <div class="seachChat">
                 <div>
-                    <input type="text" placeholder="Search chat" />
+                    <input type="text" placeholder="Search chat" id="searchInput" />
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                     </svg>
                 </div>
             </div>
 
-            <div class="chatList">
+            <div class="chatList" id="chatList">
                 @foreach (var a in Model)
                 {
-                    <button class="block active gap-2" id="myButton">
+                    var friend = a.FirstUser is null ? a.SecondUser : a.FirstUser;
+                    <button class="block active gap-2" id="myButton" onclick="show('@friend.Id','@friend.FirstName','@friend.LastName','@friend.IsOnline')">
                         <div class="imgBx">
                             <img src="/css/account.jpg" class="cover" />
                         </div>
@@ -60,29 +61,18 @@
             </div>
         </div>
         <div class="rightSide" id="rightSide" style="display:none">
-            <div class="header">
-                <div class="imgText">
-                    <div class="userImg">
-                        <img src="/css/account.jpg" class="cover">
-                    </div>
-                    <h6>Bobur<br /><span>online</span></h6>
-                    <ul class="navIcons">
-                        <li>B</li>
-                        <li>B</li>
-                    </ul>
-                </div>
+            <div class="header d-flex flex-column">
+                <div class="col-12 text-center fw-bold" id="friendName"><br /></div>
+                <div id="friendIsOnline" class="col-12 text-center text-secondary">qale</div>
             </div>
 
             <div class="chatBox" id="chatBox">
-                @for (var i = 0; i < 50; i++)
-                {
-                    <div class="message myMessage">
-                        <p>Hi, how are you doing really good right<br /><span>10:15</span></p>
-                    </div>
-                    <div class="message friendMessage">
-                        <p>Hi asdasgdausygdaysgduasgduasygdasgdasydadgs<br /><span>10:15</span></p>
-                    </div>
-                }
+                @* <div class="message myMessage">
+                    <p>Hi, how are you doing really good right<br /><span>10:15</span></p>
+                </div>
+                <div class="message friendMessage">
+                    <p>Hi asdasgdausygdaysgduasgduasygdasgdasydadgs<br /><span>10:15</span></p>
+                </div> *@
             </div>
 
             <div class="chatInput">
@@ -99,34 +89,36 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $("#submitButton").click(function () {
-                const button = document.getElementById("myButton");
-                const div = document.getElementById("rightSide");
-
-                button.addEventListener("click", function () {
-                    if (div.style.display === "none") {
-                        div.style.display = "block"; // Or any other visible display value like 'inline'
+            $("#searchInput").keyup(function () {
+                var search = document.getElementById("searchInput").value
+                console.log(search)
+                $.ajax({
+                    url: `/home/get`,
+                    data: {
+                        term: search
+                    },
+                    type: 'get',
+                    success: function (data) {
+                        console.log(data)
+                        var chatDiv = document.getElementById("chatList");
+                        var previusHtml = chatDiv.innerHTML;
+                        chatDiv.innerHTML = '';
+                        var html = ''
+                        for (var i = 0; i < data.length; i++) {
+                            var a= data[i]
+                            html += '<button class="block active gap-2" id="myButton" onclick="show(' + `'${a.id}','${a.firstName}','${a.lastName}','${a.isOnline}'` + ')">';
+                            html += '<div class="imgBx">' + '<img src="/css/account.jpg" class="cover" />' + '</div>';
+                            html += '<div class="details">' + '<div class="listHead mt-1">' + '<h5 class="m-0">';
+                            html += data[i].firstName + '  ' + data[i].lastName;
+                            html += '</h5>' + '</div>' + '</div>';
+                        }
+                        $("#chatList").append(html);
+                    },
+                    error: function (jqxhr, textstatus, errorthrown) {
+                        $("#chatList").empty();
+                        console.error('error loading users:', textstatus, errorthrown);
                     }
                 });
-                // const data = {
-                //     name: $("#nameInput").val(),
-                //     age: parseInt($("#ageInput").val())
-                // };
-
-                // $.ajax({
-                //     url: "/Home/ProcessData",
-                //     type: "POST",
-                //     contentType: "application/json",
-                //     data: JSON.stringify(data),
-                //     success: function (response) {
-                //         console.log("Success:", response);
-                //         // Update UI or handle success message
-                //     },
-                //     error: function (jqXHR, textStatus, errorThrown) {
-                //         console.error("Error:", textStatus, errorThrown);
-                //         // Handle errors
-                //     }
-                // });
             });
         });
     </script>

@@ -11,6 +11,11 @@ public class UserService(IUserRepository userRepository) : IUserService
         return userRepository.CreateAsync(user, saveChanges, cancellationToken);
     }
 
+    public IQueryable<User> Get()
+    {
+        return userRepository.Get();
+    }
+
     public async ValueTask<IList<User>> GetAsync(CancellationToken cancellationToken)
     {
         return await userRepository.Get().ToListAsync(cancellationToken);

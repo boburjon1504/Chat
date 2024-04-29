@@ -7,7 +7,7 @@ public class Message : Entity
 
     public Guid ReceiverId { get; set; }
 
-    public Guid ChatId { get; set; }
+    public Guid? ChatId { get; set; }
 
     public string Body { get; set; } = default!;
 

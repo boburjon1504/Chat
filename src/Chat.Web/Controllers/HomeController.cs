@@ -1,4 +1,5 @@
 using Chat.Application.Interfaces;
+using Chat.Domain.Entities;
 using Chat.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -27,6 +28,20 @@ public class HomeController(IUserService userService, IChatRoomService chatRoomS
         return View(users);
     }
 
+    [HttpGet]
+    public IActionResult Get(string term)
+    {
+        if(term is null)
+            return Ok(new List<User>());
+        var users = (userService.Get().Where(u =>
+        u.FirstName.ToLower().Contains(term.ToLower()) ||
+        u.LastName.ToLower().Contains(term.ToLower()) ||
+        u.UserName.ToLower().Contains(term.ToLower())
+        )).ToList();
+
+        return Json(users);
+    }
+
     public IActionResult SimpleChat()
     {
         return View();
@@ -38,5 +53,5 @@ public class HomeController(IUserService userService, IChatRoomService chatRoomS
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    private Guid GetRequestUserId() => Guid.Parse(HttpContext.User.Claims.FirstOrDefault(c=>c.Type == "UserId").Value);
+    private Guid GetRequestUserId() => Guid.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId").Value);
 }
