@@ -1,70 +1,83 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta>
+</head>
+<body>
+    <div class="container">
+        <div class="leftSide">
 
-<div class="row">
-    <div class="col-4 border-end overflow-auto" style="height:100vh">
-        <div class="text-center border-bottom col-12 align-center d-flex justify-content-center align-content-center" style="height:50px;">
-            <input type="search" class="m-2 col-12 form-control" placeholder="Search">
-        </div>
-        <div class="d-flex flex-column justify-content-center align-items-center">
-            @for (var i = 0; i < 15; i++)
-            {
-                <div class="friends col-12 text-center" style="height:50px;">Salom</div>
-                <hr class="m-1 col-12" style="width:90%">
-            }
-        </div>
-    </div>
-    <div class="col-8 position-relative">
-        <div class="position-absolute text-center top-5 bg-black">
-           
-        </div>
-        <div class="position-absolute bottom-0 text-center border-top col-12 mb-4 p-3 d-flex">
-            @* <input type="text" class="form-control"> *@
-            <textarea id="myText" rows="1" class="form-control" ></textarea>
-            <button onclick="getValue()" class="btn btn-success">Send</button>
-        </div>
-    </div>
-</div>
-@* <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Chat.Web</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                </ul>
+            <div class="header">
+                <div class="userImg">
+                    <img src="/css/account.jpg" class="cover">
+                </div>
+            </div>
+
+            <div class="seachChat">
+                <div>
+                    <input type="text" placeholder="Search chat" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </div>
+            </div>
+
+            <div class="chatList">
+                @for (var i = 0; i < 15; i++)
+                {
+                    <div class="block active gap-2">
+                        <div class="imgBx">
+                            <img src="/css/account.jpg" class="cover" />
+                        </div>
+                        <div class="details">
+                            <div class="listHead mt-1">
+                                <h5 class="m-0">Bobur</h5>
+                                <p class="time m-0">10:10</p>
+                            </div>
+                            <div class="message_p">
+                                <p class="mb-1">How to make Whatsapp clone using html and css</p>
+                                <b>1</b>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
-    </nav>
-</header>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<footer class="border-top footer text-muted">
-    <div class="container">
-        &copy; 2024 - Chat.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="rightSide">
+            <div class="header">
+                <div class="imgText">
+                    <div class="userImg">
+                        <img src="/css/account.jpg" class="cover">
+                    </div>
+                    <h6>Bobur<br /><span>online</span></h6>
+                    <ul class="navIcons">
+                        <li>B</li>
+                        <li>B</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="chatBox">
+                @for (var i = 0; i < 50; i++)
+                {
+                    <div class="message myMessage">
+                        <p>Hiiasuhdasdiuashdasudisaugdu
+                            asgdasdiasugduasdasdasdasdasdsadsadasdasda<br /><span>10:15</span></p>
+                    </div>
+                    <div class="message friendMessage">
+                        <p>Hi asdasgdausygdaysgduasgduasygdasgdasydadgs<br /><span>10:15</span></p>
+                    </div>
+                }
+            </div>
+
+            <div class="chatInput"></div>
+        </div>
     </div>
-</footer> *@
-@section Scripts{
-    <script>
-        function getValue() {
-            var a = document.getElementById("myText").value;
-            console.log(a);
-        }
-    </script>
-}
+</body>
+</html>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 
-        

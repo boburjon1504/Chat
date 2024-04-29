@@ -1,23 +1,24 @@
+using Chat.Application.Interfaces;
 using Chat.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Chat.Web.Controllers;
-public class HomeController : Controller
+public class HomeController(IUserService userService) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
     public IActionResult Index()
     {
         return View();
     }
 
-    public IActionResult Privacy()
+    public async ValueTask<IActionResult> Privacy()
+    {
+        var users = await userService.GetAsync(HttpContext.RequestAborted);
+
+        return View(users);
+    }
+
+    public IActionResult SimpleChat()
     {
         return View();
     }

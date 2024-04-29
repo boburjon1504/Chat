@@ -1,5 +1,44 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Chat.Domain.Entities;
+@model User
+
+
 @{
+    ViewData["Title"] = "Register";
 }
+<div class="d-flex bg-opacity-75  align-items-center" style="height:100vh;">
+    <div class="card border-info w-100 h-75 shadow-lg text-secondary-emphasis p-2">
+        <form method="post">
+            <h3 class="text-info card-title text-center p-1 ">Register</h3>
+            <div class="m-1">
+                <label asp-for="FirstName" class="col-12"></label>
+                <input asp-for="FirstName" class="col-12 form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="m-1">
+                <label asp-for="LastName" class="col-12"></label>
+                <input asp-for="LastName" class="col-12 form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="m-1">
+                <label asp-for="Email" class="col-12"></label>
+                <input asp-for="Email" class="col-12 form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="m-1">
+                <label asp-for="UserName" class="col-10"></label>
+                <input asp-for="UserName" class="col-10 form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="m-1">
+                <label asp-for="Password" class="col-12"></label>
+                <input asp-for="Password" class="col-12 form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="row m-1 d-flex justify-content-center ">
+                <a class="link-info text-center m-1" asp-action="Login">I have an account</a>
+                <button type="submit" class="btn btn-primary col-5" asp-action="Register">Register</button>
+            </div>
+        </form>
+    </div>
+</div>

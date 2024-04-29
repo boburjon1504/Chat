@@ -25,15 +25,14 @@ public class AccountController(IAccountService accountService) : Controller
     {
         if (User.Identity.IsAuthenticated)
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("SimpleChat", "Home");
         }
         return View();
     }
     [HttpPost]
     public async ValueTask<IActionResult> Login(User user)
     {
-        if (ModelState.IsValid)
-        {
+       
             try
             {
                 var token = await accountService.LoginAsync(new User { UserName = user.UserName, Password = user.Password });
@@ -44,8 +43,7 @@ public class AccountController(IAccountService accountService) : Controller
                 ModelState.AddModelError("",ex.Message);
                 return View();
             }
-            return RedirectToAction("Index", "Home");
-        }
+            return RedirectToAction("SimpleChat", "Home");
         return View();
     }
 }

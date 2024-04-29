@@ -4,6 +4,7 @@ using Chat.Infrastructure.Services;
 using Chat.Persistence.DataContext;
 using Chat.Persistence.Repositories;
 using Chat.Persistence.Repositories.Interfaces;
+using Chat.Web.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,9 +18,12 @@ builder
     .Services
     .AddScoped<IUserRepository, UserRepository>()
     .AddScoped<IUserService, UserService>()
+    .AddScoped<IMessageRepository, MessageRepository>()
+    .AddScoped<IMessageService, MessageService>()
     .AddScoped<ITokenGeneratorService, TokenGeneratorService>()
     .AddScoped<IAccountService, AccountService>();
 
+builder.Services.AddSignalR();
 builder.Services.AddControllersWithViews();
 
 var jwtSettings = new JwtSettings();
@@ -50,6 +54,7 @@ builder.Services
                 return Task.CompletedTask;
             }
         };
+
     });
 
 var app = builder.Build();
@@ -65,8 +70,9 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapHub<ChatHub>("/mychat");
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Account}/{action=Login}");
 
 app.Run();

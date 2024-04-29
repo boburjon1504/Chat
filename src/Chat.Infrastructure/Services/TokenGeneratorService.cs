@@ -20,7 +20,7 @@ public class TokenGeneratorService(IOptions<JwtSettings> jwtSettings) : ITokenGe
     private JwtSecurityToken GetJwtToken(User user)
     {
         var security = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
-        var credential = new SigningCredentials(security,SecurityAlgorithms.HmacSha256);
+        var credential = new SigningCredentials(security, SecurityAlgorithms.HmacSha256);
         var claims = GetClaims(user);
         return new JwtSecurityToken(
             issuer: _jwtSettings.ValidIssuer,
@@ -35,6 +35,7 @@ public class TokenGeneratorService(IOptions<JwtSettings> jwtSettings) : ITokenGe
     private List<Claim> GetClaims(User user) => new List<Claim>
     {
         new Claim("UserId",user.Id.ToString()),
+        new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
         new Claim(ClaimTypes.Email,user.Email),
     };
 }

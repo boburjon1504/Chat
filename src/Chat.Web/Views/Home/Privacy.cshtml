@@ -1,6 +1,11 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿@using Chat.Domain.Entities;
+@model List<User>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="row">
+    <ul>
+        @foreach(var a in Model)
+        {
+            <li>id: @a.Id   name: @a.FirstName</li>
+        }
+    </ul>
+</div>
