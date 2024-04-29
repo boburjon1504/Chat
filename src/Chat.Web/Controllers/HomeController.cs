@@ -4,11 +4,20 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Chat.Web.Controllers;
-public class HomeController(IUserService userService) : Controller
+public class HomeController(IUserService userService, IChatRoomService chatRoomService) : Controller
 {
-    public IActionResult Index()
+    public async ValueTask<IActionResult> Index()
     {
-        return View();
+        var userId = GetRequestUserId();
+        var chats = await chatRoomService.GetByUserIdAsync(userId);
+        chats.ForEach(c =>
+        {
+            if (c.FirstUserId == userId)
+                c.FirstUser = null;
+            else
+                c.SecondUser = null;
+        });
+        return View(chats);
     }
 
     public async ValueTask<IActionResult> Privacy()
@@ -28,4 +37,6 @@ public class HomeController(IUserService userService) : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    private Guid GetRequestUserId() => Guid.Parse(HttpContext.User.Claims.FirstOrDefault(c=>c.Type == "UserId").Value);
 }

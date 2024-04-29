@@ -18,6 +18,8 @@ builder
     .Services
     .AddScoped<IUserRepository, UserRepository>()
     .AddScoped<IUserService, UserService>()
+    .AddScoped<IChatRoomRepository, ChatRoomRepository>()
+    .AddScoped<IChatRoomService, ChatRoomService>()
     .AddScoped<IMessageRepository, MessageRepository>()
     .AddScoped<IMessageService, MessageService>()
     .AddScoped<ITokenGeneratorService, TokenGeneratorService>()

@@ -7,6 +7,8 @@ public interface IMessageService
 
     ValueTask<Message?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default);
 
+    ValueTask<List<Message>> GetByChatRoomIdAsync(Guid chatRoomId, bool asNoTracking = true, CancellationToken cancellationToken = default);
+
     ValueTask<Message> CreateAsync(Message message, bool saveChanges = true, CancellationToken cancellationToken = default);
 
     ValueTask<Message> UpdateAsync(Message message, bool saveChanges = true, CancellationToken cancellationToken = default);

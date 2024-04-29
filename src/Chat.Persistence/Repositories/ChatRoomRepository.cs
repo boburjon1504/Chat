@@ -4,7 +4,7 @@ using Chat.Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chat.Persistence.Repositories;
-internal class ChatRoomRepository(ChatDbContext dbContext) : EntityBaseRepository<ChatRoom>(dbContext), IChatRoomRepository
+public class ChatRoomRepository(ChatDbContext dbContext) : EntityBaseRepository<ChatRoom>(dbContext), IChatRoomRepository
 {
     public IQueryable<ChatRoom> Get(bool asNoTracking = true)
     {

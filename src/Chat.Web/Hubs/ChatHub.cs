@@ -18,6 +18,7 @@ public class ChatHub(IUserService userService,IMessageService messageService) : 
     }
     public async Task SendToUserMessage(string user, string message)
     {
+        
         var receiverId = Guid.Parse(user);
         var receiver = await userService.GetByIdAsync(receiverId);
         if (receiver.IsOnline)

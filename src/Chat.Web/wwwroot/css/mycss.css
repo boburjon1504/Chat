@@ -214,7 +214,7 @@
 .message p{
     position:relative;
     right:0;
-    text-align:right;
+    text-align:left;
     max-width:50%;
     padding:12px;
     background:#dcf8c6;

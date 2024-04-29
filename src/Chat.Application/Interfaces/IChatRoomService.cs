@@ -5,6 +5,7 @@ public interface IChatRoomService
 {
     IQueryable<ChatRoom> Get(bool asNoTracking = true);
 
+    ValueTask<List<ChatRoom>> GetByUserIdAsync(Guid userId, bool asNoTracking = true, CancellationToken cancellationToken = default);
     ValueTask<ChatRoom?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default);
 
     ValueTask<ChatRoom> CreateAsync(ChatRoom chatRoom, bool saveChanges = true, CancellationToken cancellationToken = default);

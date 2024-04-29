@@ -1,6 +1,7 @@
 ﻿using Chat.Application.Interfaces;
 using Chat.Domain.Entities;
 using Chat.Persistence.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chat.Infrastructure.Services;
 public class ChatRoomService(IChatRoomRepository repository) : IChatRoomService
@@ -13,6 +14,14 @@ public class ChatRoomService(IChatRoomRepository repository) : IChatRoomService
     public ValueTask<ChatRoom?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
         return repository.GetByIdAsync(id, asNoTracking, cancellationToken);
+    }
+    public async ValueTask<List<ChatRoom>> GetByUserIdAsync(Guid userId, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    {
+        return await repository.Get(asNoTracking)
+            .Where(c => c.FirstUserId == userId || c.SecondUserId == userId)
+            .Include(c => c.FirstUser)
+            .Include(c => c.SecondUser)
+            .ToListAsync();
     }
 
     public ValueTask<ChatRoom> CreateAsync(ChatRoom chatRoom, bool saveChanges, CancellationToken cancellationToken)
@@ -29,4 +38,5 @@ public class ChatRoomService(IChatRoomRepository repository) : IChatRoomService
     {
         return repository.DeleteAsync(chatRoom, saveChanges, cancellationToken);
     }
+
 }

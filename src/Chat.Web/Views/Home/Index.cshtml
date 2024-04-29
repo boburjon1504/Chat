@@ -1,4 +1,7 @@
-﻿@{
+﻿@using Chat.Domain.Entities;
+@model List<ChatRoom>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 <!DOCTYPE html>
@@ -14,6 +17,7 @@
                 <div class="userImg">
                     <img src="/css/account.jpg" class="cover">
                 </div>
+                <div>Bobur</div>
             </div>
 
             <div class="seachChat">
@@ -26,15 +30,24 @@
             </div>
 
             <div class="chatList">
-                @for (var i = 0; i < 15; i++)
+                @foreach (var a in Model)
                 {
-                    <div class="block active gap-2">
+                    <button class="block active gap-2" id="myButton">
                         <div class="imgBx">
                             <img src="/css/account.jpg" class="cover" />
                         </div>
                         <div class="details">
                             <div class="listHead mt-1">
-                                <h5 class="m-0">Bobur</h5>
+                                <h5 class="m-0">
+                                    @if (a.FirstUser is null)
+                                    {
+                                        @a.SecondUser.UserName
+                                    }
+                                    else
+                                    {
+                                        @a.FirstUser.UserName
+                                    }
+                                </h5>
                                 <p class="time m-0">10:10</p>
                             </div>
                             <div class="message_p">
@@ -42,11 +55,11 @@
                                 <b>1</b>
                             </div>
                         </div>
-                    </div>
+                    </button>
                 }
             </div>
         </div>
-        <div class="rightSide">
+        <div class="rightSide" id="rightSide" style="display:none">
             <div class="header">
                 <div class="imgText">
                     <div class="userImg">
@@ -60,12 +73,11 @@
                 </div>
             </div>
 
-            <div class="chatBox">
+            <div class="chatBox" id="chatBox">
                 @for (var i = 0; i < 50; i++)
                 {
                     <div class="message myMessage">
-                        <p>Hiiasuhdasdiuashdasudisaugdu
-                            asgdasdiasugduasdasdasdasdasdsadsadasdasda<br /><span>10:15</span></p>
+                        <p>Hi, how are you doing really good right<br /><span>10:15</span></p>
                     </div>
                     <div class="message friendMessage">
                         <p>Hi asdasgdausygdaysgduasgduasygdasgdasydadgs<br /><span>10:15</span></p>
@@ -73,11 +85,50 @@
                 }
             </div>
 
-            <div class="chatInput"></div>
+            <div class="chatInput">
+                <button id="sendButton" class="btn btn-success"></button>
+            </div>
         </div>
     </div>
 </body>
 </html>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/mychat.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#submitButton").click(function () {
+                const button = document.getElementById("myButton");
+                const div = document.getElementById("rightSide");
+
+                button.addEventListener("click", function () {
+                    if (div.style.display === "none") {
+                        div.style.display = "block"; // Or any other visible display value like 'inline'
+                    }
+                });
+                // const data = {
+                //     name: $("#nameInput").val(),
+                //     age: parseInt($("#ageInput").val())
+                // };
+
+                // $.ajax({
+                //     url: "/Home/ProcessData",
+                //     type: "POST",
+                //     contentType: "application/json",
+                //     data: JSON.stringify(data),
+                //     success: function (response) {
+                //         console.log("Success:", response);
+                //         // Update UI or handle success message
+                //     },
+                //     error: function (jqXHR, textStatus, errorThrown) {
+                //         console.error("Error:", textStatus, errorThrown);
+                //         // Handle errors
+                //     }
+                // });
+            });
+        });
+    </script>
+}
 
