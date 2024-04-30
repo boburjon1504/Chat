@@ -21,9 +21,9 @@ public class UserService(IUserRepository userRepository) : IUserService
         return await userRepository.Get().ToListAsync(cancellationToken);
     }
 
-    public async ValueTask<User?> GetByEmailAsync(string userName, CancellationToken cancellationToken = default)
+    public async ValueTask<User?> GetByUserNameAsync(string userName, CancellationToken cancellationToken = default)
     {
-        return await userRepository.Get().FirstOrDefaultAsync(u => u.Email.Equals(userName));
+        return await userRepository.Get().FirstOrDefaultAsync(u => u.UserName.Equals(userName));
     }
 
     public ValueTask<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)

@@ -13,7 +13,7 @@ public interface IUserService
 
     ValueTask<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
-    ValueTask<User?> GetByEmailAsync(string userName, CancellationToken cancellationToken = default);
+    ValueTask<User?> GetByUserNameAsync(string userName, CancellationToken cancellationToken = default);
 
     ValueTask<User> CreateAsync(User user, bool saveChanges = true, CancellationToken cancellationToken = default);
 

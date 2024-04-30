@@ -9,7 +9,7 @@ public class ChatController(IMessageService messageService) : Controller
     {
         return View();
     }
-
+    [HttpGet]
     public IActionResult PrivateChat(string userId)
     {
         var user = GetRequestUserId();
@@ -18,5 +18,16 @@ public class ChatController(IMessageService messageService) : Controller
         (m.SenderId == secondUser && m.ReceiverId == user)).ToList();
         return Ok(messages);
     }
+    public IActionResult Index(string roomId)
+    {
+        return Redirect($"/{Guid.NewGuid()}");
+    }
+    [HttpGet("/{roomId}")]
+    public IActionResult Room(string roomId)
+    {
+        ViewBag.roomId = roomId; 
+        return View();
+    }
+
     private Guid GetRequestUserId() => Guid.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId").Value);
 }

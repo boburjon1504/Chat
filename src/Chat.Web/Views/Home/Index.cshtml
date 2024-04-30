@@ -10,8 +10,8 @@
     <meta>
 </head>
 <body>
-    <div class="container">
-        <div class="leftSide">
+    <div class="container d-flex">
+        <div class="flex-grow-0 border-end d-flex flex-column">
 
             <div class="header">
                 <div class="userImg">
@@ -39,30 +39,24 @@
                         </div>
                         <div class="details">
                             <div class="listHead mt-1">
-                                <h5 class="m-0">
-                                    @if (a.FirstUser is null)
-                                    {
-                                        @a.SecondUser.UserName
-                                    }
-                                    else
-                                    {
-                                        @a.FirstUser.UserName
-                                    }
+                                <h5 id="name(@friend.Id" class="m-0">
+                                    @friend.FirstName  @friend.LastName
                                 </h5>
-                                <p class="time m-0">10:10</p>
+                                <p id="time(@friend.Id" class="time m-0">10:10</p>
                             </div>
                             <div class="message_p">
-                                <p class="mb-1">How to make Whatsapp clone using html and css</p>
-                                <b>1</b>
+                                <p id="message(@friend.Id" class="mb-1">How to make Whatsapp clone using html and css</p>
+                                <b id="count(@friend.Id">1</b>
                             </div>
                         </div>
                     </button>
                 }
             </div>
         </div>
-        <div class="rightSide" id="rightSide" style="display:none">
+        <div class="flex-grow-1 d-flex flex-column" style="background:#e5ddd5;display:none" id="rightSide">
             <div class="header d-flex flex-column">
                 <div class="col-12 text-center fw-bold" id="friendName"><br /></div>
+                <label id="friendId" hidden></label>
                 <div id="friendIsOnline" class="col-12 text-center text-secondary">qale</div>
             </div>
 
@@ -75,16 +69,24 @@
                 </div> *@
             </div>
 
-            <div class="chatInput">
-                <button id="sendButton" class="btn btn-success"></button>
+            <div class="d-flex justify-content-center align-content-center">
+                <input type="text" id="inputMessage" placeholder="Type message" style="height:40px;width:80%;border-radius:30px;border:none;outline:none;padding:15px" >
+                <button class="btn btn-success" id="sendButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+                        <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z" />
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
 </body>
 </html>
+<link rel="stylesheet" href="~/css/mycss.css" />
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/mychat.js"></script>
+<script src="~/js/mysignalr.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @section Scripts {
     <script>
@@ -110,7 +112,7 @@
                             html += '<div class="imgBx">' + '<img src="/css/account.jpg" class="cover" />' + '</div>';
                             html += '<div class="details">' + '<div class="listHead mt-1">' + '<h5 class="m-0">';
                             html += data[i].firstName + '  ' + data[i].lastName;
-                            html += '</h5>' + '</div>' + '</div>';
+                            html += '</h5>' + '</div>' + '</div>' + '</button>';
                         }
                         $("#chatList").append(html);
                     },

@@ -11,10 +11,10 @@ public class ChatRoomService(IChatRoomRepository repository) : IChatRoomService
         return repository.Get(asNoTracking);
     }
 
-    public ValueTask<ChatRoom?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default)
-    {
-        return repository.GetByIdAsync(id, asNoTracking, cancellationToken);
-    }
+    public async ValueTask<ChatRoom?> GetByUsersIdAsync(Guid firstUserId, Guid secondUserId, bool asNoTracking = true, CancellationToken cancellationToken = default) =>
+        await Get(asNoTracking).FirstOrDefaultAsync(c => (c.FirstUserId == firstUserId && c.SecondUserId == secondUserId) ||
+        (c.FirstUserId == secondUserId && c.SecondUserId == firstUserId));
+
     public async ValueTask<List<ChatRoom>> GetByUserIdAsync(Guid userId, bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
         return await repository.Get(asNoTracking)
@@ -24,9 +24,15 @@ public class ChatRoomService(IChatRoomRepository repository) : IChatRoomService
             .ToListAsync();
     }
 
-    public ValueTask<ChatRoom> CreateAsync(ChatRoom chatRoom, bool saveChanges, CancellationToken cancellationToken)
+    public ValueTask<ChatRoom> CreateAsync(Guid firstUserId, Guid secondUserId, bool saveChanges, CancellationToken cancellationToken)
     {
-        return repository.CreateAsync(chatRoom, saveChanges, cancellationToken);
+        var chat = new ChatRoom
+        {
+            Id = Guid.NewGuid(),
+            FirstUserId = firstUserId,
+            SecondUserId = secondUserId,
+        };
+        return repository.CreateAsync(chat, saveChanges, cancellationToken);
     }
 
     public ValueTask<ChatRoom> UpdateAsync(ChatRoom chatRoom, bool saveChanges = true, CancellationToken cancellationToken = default)

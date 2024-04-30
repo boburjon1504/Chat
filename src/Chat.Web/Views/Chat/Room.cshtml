@@ -1,0 +1,22 @@
+﻿<h1 style="text-align:center">@ViewBag.roomId</h1>
+
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+<script>
+    const roomId = @ViewBag.roomId;
+    const userId = null;
+
+    const connection = new signalR.HubConnectionBuilder().withUrl("/meeting").build();
+    const startConnection = async () => {
+        await connection.start();
+        await connection.invoke("JoinMeetingAsync", 'roomId', '10');
+
+        connection.on("UserConnected", function(id){
+            console.log(`User connected: ${id}`);
+        })
+    }
+    const
+
+    startConnection();
+
+</script>

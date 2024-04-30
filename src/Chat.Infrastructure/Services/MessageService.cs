@@ -20,9 +20,20 @@ public class MessageService(IMessageRepository repository) : IMessageService
         return await Get(asNoTracking).Where(m => m.ChatId == chatRoomId).ToListAsync();
     }
 
-    public ValueTask<Message> CreateAsync(Message message, bool saveChanges, CancellationToken cancellationToken)
+    public ValueTask<Message> CreateAsync(Guid senderId, Guid receiverId, Guid chatId,string message, bool isDelivered, bool saveChanges = true, CancellationToken cancellationToken = default)
     {
-        return repository.CreateAsync(message, saveChanges, cancellationToken);
+        var newMessage = new Message
+        {
+            Id = Guid.NewGuid(),
+            SenderId = senderId,
+            ReceiverId = receiverId,
+            ChatId = chatId,
+            Body = message,
+            SendAt = DateTimeOffset.UtcNow,
+            IsDelivered = isDelivered
+        };
+
+        return repository.CreateAsync(newMessage, saveChanges, cancellationToken);
     }
 
     public ValueTask<Message> UpdateAsync(Message message, bool saveChanges = true, CancellationToken cancellationToken = default)

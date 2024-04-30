@@ -12,7 +12,7 @@ public class AccountService(IUserService userService, ITokenGeneratorService tok
     }
     public async ValueTask<string> LoginAsync(User user, CancellationToken cancellationToken = default)
     {
-        var foundUser =await userService.GetByEmailAsync(user.UserName);
+        var foundUser =await userService.GetByUserNameAsync(user.UserName);
 
         if(foundUser is null)
             throw new ArgumentException("There is no such user");

@@ -9,9 +9,9 @@ public class ChatRoomConfiguration : IEntityTypeConfiguration<ChatRoom>
     {
         builder.HasMany<Message>().WithOne().HasForeignKey(m => m.ChatId);
 
-        builder.HasOne(c => c.FirstUser).WithOne().HasForeignKey<ChatRoom>(c => c.FirstUserId);
+        builder.HasOne(c => c.FirstUser).WithMany().HasForeignKey(c => c.FirstUserId);
 
-        builder.HasOne(c => c.SecondUser).WithOne().HasForeignKey<ChatRoom>(c => c.SecondUserId);
+        builder.HasOne(c => c.SecondUser).WithMany().HasForeignKey(c => c.SecondUserId);
 
         builder.HasData(new ChatRoom
         {

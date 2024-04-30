@@ -25,7 +25,7 @@ public class AccountController(IAccountService accountService) : Controller
     {
         if (User.Identity.IsAuthenticated)
         {
-            return RedirectToAction("SimpleChat", "Home");
+            return RedirectToAction("Index", "Home");
         }
         return View();
     }
@@ -43,6 +43,6 @@ public class AccountController(IAccountService accountService) : Controller
                 ModelState.AddModelError("",ex.Message);
                 return View();
             }
-            return RedirectToAction("SimpleChat", "Home");
+            return RedirectToAction("Index", "Home");
     }
 }

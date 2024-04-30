@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Chat.Web.Hubs;
 
-public class ChatHub(IUserService userService,IMessageService messageService) : Hub
+public class ChatHub(IUserService userService,IChatOrchestrationService chatOrchestrationService) : Hub
 {
     public override async Task OnConnectedAsync()
     {
@@ -18,34 +18,22 @@ public class ChatHub(IUserService userService,IMessageService messageService) : 
     }
     public async Task SendToUserMessage(string user, string message)
     {
-        
+        var senderId = GetRequestUser();
         var receiverId = Guid.Parse(user);
+
         var receiver = await userService.GetByIdAsync(receiverId);
+
         if (receiver.IsOnline)
         {
-            await SaveMessage(receiverId, message, true);
-            await Clients.User(user).SendAsync("ReceiveMessage", user, message);
+            var sender = await userService.GetByIdAsync(senderId);
+            await chatOrchestrationService.SaveMessageToChatAsync(senderId,receiverId, message, true);
+            await Clients.User(user).SendAsync("ReceiveMessage", sender.Id,sender.FirstName,sender.LastName,sender.IsOnline,message);
         }
         else
         {
-            await SaveMessage(receiverId, message, false);
+            await chatOrchestrationService.SaveMessageToChatAsync(senderId, receiverId, message, true);
         }
     }
-    private async Task SaveMessage(Guid receiverId,string message, bool isDelivered)
-    {
-        var newMessage = new Message
-        {
-            SenderId = GetRequestUser(),
-            ReceiverId = receiverId,
-            Body = message,
-            SendAt = DateTimeOffset.Now,
-            ChatId = receiverId ,
-            IsDelivered = isDelivered
-        };
-
-        await messageService.CreateAsync(newMessage);
-    }
-
     private async Task SetOnlineInformation(bool isOnline)
     {
         Guid userId = GetRequestUser();
@@ -59,7 +47,7 @@ public class ChatHub(IUserService userService,IMessageService messageService) : 
 
     private Guid GetRequestUser()
     {
-        var userId = Context.User.Claims.FirstOrDefault(c => c.Type.Equals("UserId")).Value;
+        var userId = Context.User?.Claims?.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
 
         if (userId is null)
         {

@@ -18,6 +18,7 @@ builder
     .Services
     .AddScoped<IUserRepository, UserRepository>()
     .AddScoped<IUserService, UserService>()
+    .AddScoped<IChatOrchestrationService, ChatOrchestrationService>()
     .AddScoped<IChatRoomRepository, ChatRoomRepository>()
     .AddScoped<IChatRoomService, ChatRoomService>()
     .AddScoped<IMessageRepository, MessageRepository>()
@@ -73,8 +74,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHub<ChatHub>("/mychat");
+app.MapHub<VideoHub>("/meeting");
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}");
+    pattern: "{controller=Chat}/{action=Index}");
 
 app.Run();
