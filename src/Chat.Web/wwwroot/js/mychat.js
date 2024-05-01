@@ -12,6 +12,7 @@ function show(Id, FirstName, LastName, IsOnline) {
         type: 'get',
         success: function (data) {
             var friendOnline = document.getElementById("friendIsOnline");
+
             if (IsOnline === 'True' || IsOnline === 'true') {
                 friendOnline.textContent = 'online'
             } else {
@@ -20,8 +21,10 @@ function show(Id, FirstName, LastName, IsOnline) {
             var friendName = document.getElementById("friendName");
             var friendId = document.getElementById("friendId");
             var count = document.getElementById(`count(${Id}`);
-            count.textContent = '0'
-            count.hidden;
+            if (count != null) {
+                count.textContent = '0'
+                count.style.display = "none";
+            }
             friendId.textContent = Id;
             friendName.textContent = FirstName + '  ' + LastName
             var chatDiv = document.getElementById("chatBox");

@@ -32,7 +32,7 @@
             <div class="chatList" id="chatList">
                 @foreach (var a in Model.Chats)
                 {
-                    var friend = a.FirstUser is null ? a.SecondUser : a.FirstUser;
+                    var friend = a.FirstUser.Id == Model.User.Id ? a.SecondUser : a.FirstUser;
                     var count = a.FirstUserId == Model.User.Id ? a.FirstUserUnReadMessageCount : a.SecondUserUnReadMessageCount;
                     <button class="block active gap-2" id="myButton" onclick="show('@friend.Id','@friend.FirstName','@friend.LastName','@friend.IsOnline')">
                         <div class="imgBx">
@@ -43,14 +43,27 @@
                                 <h5 id="name(@friend.Id" class="m-0">
                                     @friend.FirstName  @friend.LastName
                                 </h5>
-                                <p id="time(@friend.Id" class="time m-0">@a.LastMessage.SendAt.ToLocalTime().ToString("hh:mm tt")</p>
+                                <p id="time(@friend.Id" class="time m-0">
+                                    @if (a.LastMessage is not null)
+                                    {
+                                        a.LastMessage.SendAt.ToLocalTime().ToString("hh:mm tt");
+                                    }
+                                </p>
                             </div>
                             <div class="message_p">
-                                <p id="message(@friend.Id" class="mb-1">@a.LastMessage.Body</p>
-                                @if (count > 0) {
+                                <p id="message(@friend.Id" class="mb-1">
+                                    @if(a.LastMessage is not null)
+                                    {
+                                        a.LastMessage.Body.ToString();
+                                    }
+                                </p>
+                                @if (count > 0)
+                                {
                                     <b id="count(@friend.Id">@count</b>
-                                }else{
-                                    <b id="count(@friend.Id" hidden>0</b>
+                                }
+                                else
+                                {
+                                    <b id="count(@friend.Id" style="display:none">0</b>
                                 }
                             </div>
                         </div>
@@ -67,15 +80,15 @@
 
             <div class="chatBox" id="chatBox">
                 @* <div class="message myMessage">
-                    <p>Hi, how are you doing really good right<br /><span>10:15</span></p>
+                <p>Hi, how are you doing really good right<br /><span>10:15</span></p>
                 </div>
                 <div class="message friendMessage">
-                    <p>Hi asdasgdausygdaysgduasgduasygdasgdasydadgs<br /><span>10:15</span></p>
+                <p>Hi asdasgdausygdaysgduasgduasygdasgdasydadgs<br /><span>10:15</span></p>
                 </div> *@
             </div>
 
             <div class="d-flex justify-content-center align-content-center">
-                <input type="text" id="inputMessage" placeholder="Type message" style="height:40px;width:80%;border-radius:30px;border:none;outline:none;padding:15px" >
+                <input type="text" id="inputMessage" placeholder="Type message" style="height:40px;width:80%;border-radius:30px;border:none;outline:none;padding:15px">
                 <button class="btn btn-success" id="sendButton">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
                         <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z" />
@@ -112,7 +125,7 @@
                         chatDiv.innerHTML = '';
                         var html = ''
                         for (var i = 0; i < data.length; i++) {
-                            var a= data[i]
+                            var a = data[i]
                             html += '<button class="block active gap-2" id="myButton" onclick="show(' + `'${a.id}','${a.firstName}','${a.lastName}','${a.isOnline}'` + ')">';
                             html += '<div class="imgBx">' + '<img src="/css/account.jpg" class="cover" />' + '</div>';
                             html += '<div class="details">' + '<div class="listHead mt-1">' + '<h5 class="m-0">';

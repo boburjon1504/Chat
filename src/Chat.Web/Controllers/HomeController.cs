@@ -15,13 +15,6 @@ public class HomeController(IUserService userService, IChatRoomService chatRoomS
             return RedirectToAction("Login", "Account");
 
         var chats = await chatRoomService.GetByUserIdAsync(userId);
-        chats.ForEach(c =>
-        {
-            if (c.FirstUserId == userId)
-                c.FirstUser = null;
-            else
-                c.SecondUser = null;
-        });
         var modelView = new ModelForView
         {
             User = await userService.GetByIdAsync(userId, HttpContext.RequestAborted),

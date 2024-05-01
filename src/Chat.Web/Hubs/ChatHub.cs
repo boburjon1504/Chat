@@ -1,10 +1,9 @@
 ﻿using Chat.Application.Interfaces;
-using Chat.Domain.Entities;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Chat.Web.Hubs;
 
-public class ChatHub(IUserService userService,IChatOrchestrationService chatOrchestrationService) : Hub
+public class ChatHub(IUserService userService, IChatOrchestrationService chatOrchestrationService) : Hub
 {
     public override async Task OnConnectedAsync()
     {
@@ -26,8 +25,8 @@ public class ChatHub(IUserService userService,IChatOrchestrationService chatOrch
         if (receiver.IsOnline)
         {
             var sender = await userService.GetByIdAsync(senderId);
-            await chatOrchestrationService.SaveMessageToChatAsync(senderId,receiverId, message, true);
-            await Clients.User(user).SendAsync("ReceiveMessage", sender.Id,sender.FirstName,sender.LastName,sender.IsOnline,message);
+            await chatOrchestrationService.SaveMessageToChatAsync(senderId, receiverId, message, true);
+            await Clients.User(user).SendAsync("ReceiveMessage", sender.Id, sender.FirstName, sender.LastName, sender.IsOnline, message);
         }
         else
         {
@@ -43,6 +42,7 @@ public class ChatHub(IUserService userService,IChatOrchestrationService chatOrch
         user.IsOnline = isOnline;
 
         await userService.UpdateAsync(user);
+
     }
 
     private Guid GetRequestUser()

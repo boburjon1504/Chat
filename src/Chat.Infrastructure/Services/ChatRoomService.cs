@@ -21,7 +21,7 @@ public class ChatRoomService(IChatRoomRepository repository) : IChatRoomService
             .Where(c => c.FirstUserId == userId || c.SecondUserId == userId)
             .Include(c => c.FirstUser)
             .Include(c => c.SecondUser)
-            .Include(c=>c.LastMessage)
+            .Include(c => c.LastMessage)
             .ToListAsync();
     }
 
