@@ -23,6 +23,7 @@ connection.on("ReceiveMessage", function (id, firstName, lastName, isOnline, mes
         var h = ''
         if (count === null) {
 
+            $(`#count(${id}`).show();
             h += '<button class="block active gap-2" id="myButton" onclick="show(' + `'${id}','${firstName}','${lastName}','${isOnline}'` + ')">';
             h += '<div class="imgBx">' + '<img src="/css/account.jpg" class="cover" />' + '</div>';
             h += '<div class="details">' + '<div class="listHead mt-1">' + `<h5 id="name(${id}"` + 'class="m-0">';
@@ -57,6 +58,12 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     html += '<p>' + message + '<br /><span>' + data.toLocaleTimeString() + '</span></p>';
     html += '</div>';
     const myDiv = document.getElementById('chatBox');
+
+    var m = document.getElementById(`message(${user}`)
+    var time = document.getElementById(`time(${user}`)
+    m.textContent = message;
+    time.textContent = data.toLocaleTimeString()
+
     setTimeout(function () {
         myDiv.scrollTop = myDiv.scrollHeight;
     }, 10);

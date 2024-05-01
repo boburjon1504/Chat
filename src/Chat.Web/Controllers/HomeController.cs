@@ -10,6 +10,10 @@ public class HomeController(IUserService userService, IChatRoomService chatRoomS
     public async ValueTask<IActionResult> Index()
     {
         var userId = GetRequestUserId();
+
+        if (userId == Guid.Empty)
+            return RedirectToAction("Login", "Account");
+
         var chats = await chatRoomService.GetByUserIdAsync(userId);
         chats.ForEach(c =>
         {
@@ -18,7 +22,13 @@ public class HomeController(IUserService userService, IChatRoomService chatRoomS
             else
                 c.SecondUser = null;
         });
-        return View(chats);
+        var modelView = new ModelForView
+        {
+            User = await userService.GetByIdAsync(userId, HttpContext.RequestAborted),
+            Chats = chats
+        };
+
+        return View(modelView);
     }
 
     public async ValueTask<IActionResult> Privacy()
@@ -31,7 +41,7 @@ public class HomeController(IUserService userService, IChatRoomService chatRoomS
     [HttpGet]
     public IActionResult Get(string term)
     {
-        if(term is null)
+        if (term is null)
             return Ok(new List<User>());
         var users = (userService.Get().Where(u =>
         u.FirstName.ToLower().Contains(term.ToLower()) ||
@@ -53,5 +63,11 @@ public class HomeController(IUserService userService, IChatRoomService chatRoomS
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    private Guid GetRequestUserId() => Guid.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId").Value);
+    private Guid GetRequestUserId()
+    {
+        var user = HttpContext.User.Claims.FirstOrDefault(c=>c.Type == "UserId");
+
+        return user is null ? Guid.Empty : Guid.Parse(user.Value);
+    }
+    
 }

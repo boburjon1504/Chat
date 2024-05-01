@@ -3,6 +3,7 @@ using System;
 using Chat.Persistence.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Chat.Persistence.Migrations
 {
     [DbContext(typeof(ChatDbContext))]
-    partial class ChatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240501090353_LastMessageForChatRoom")]
+    partial class LastMessageForChatRoom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,17 +34,11 @@ namespace Chat.Persistence.Migrations
                     b.Property<Guid>("FirstUserId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("FirstUserUnReadMessageCount")
-                        .HasColumnType("integer");
-
                     b.Property<Guid?>("LastMessageId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("SecondUserId")
                         .HasColumnType("uuid");
-
-                    b.Property<int>("SecondUserUnReadMessageCount")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -94,20 +91,20 @@ namespace Chat.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e6485974-4157-48a9-838a-e3ecbc31cd74"),
+                            Id = new Guid("7218b486-c370-4339-a506-4bbcd6d60f57"),
                             Body = "Salom",
                             IsDelivered = true,
                             ReceiverId = new Guid("d288a320-adb3-4018-b6ce-449a124775fd"),
-                            SendAt = new DateTimeOffset(new DateTime(2024, 5, 1, 9, 33, 46, 81, DateTimeKind.Unspecified).AddTicks(6225), new TimeSpan(0, 0, 0, 0, 0)),
+                            SendAt = new DateTimeOffset(new DateTime(2024, 5, 1, 9, 3, 53, 130, DateTimeKind.Unspecified).AddTicks(7831), new TimeSpan(0, 0, 0, 0, 0)),
                             SenderId = new Guid("5dff9d04-9a72-4cb8-bc73-63ad04078d2d")
                         },
                         new
                         {
-                            Id = new Guid("32d636d5-64d6-48eb-accd-54b10e43849c"),
+                            Id = new Guid("d5032e60-9595-4124-b17f-fb6f32c49be9"),
                             Body = "Ishlaring yaxshimi",
                             IsDelivered = true,
                             ReceiverId = new Guid("5dff9d04-9a72-4cb8-bc73-63ad04078d2d"),
-                            SendAt = new DateTimeOffset(new DateTime(2024, 5, 1, 14, 33, 46, 81, DateTimeKind.Unspecified).AddTicks(6256), new TimeSpan(0, 5, 0, 0, 0)),
+                            SendAt = new DateTimeOffset(new DateTime(2024, 5, 1, 14, 3, 53, 130, DateTimeKind.Unspecified).AddTicks(7869), new TimeSpan(0, 5, 0, 0, 0)),
                             SenderId = new Guid("d288a320-adb3-4018-b6ce-449a124775fd")
                         });
                 });

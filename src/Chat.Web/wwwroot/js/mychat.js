@@ -1,6 +1,6 @@
 function show(Id, FirstName, LastName, IsOnline) {   
     const div = document.getElementById("rightSide");
-
+    
     if (div.style.display === "none") {
         div.style.display = "block";
     }
@@ -19,9 +19,11 @@ function show(Id, FirstName, LastName, IsOnline) {
             }
             var friendName = document.getElementById("friendName");
             var friendId = document.getElementById("friendId");
+            var count = document.getElementById(`count(${Id}`);
+            count.textContent = '0'
+            count.hidden;
             friendId.textContent = Id;
             friendName.textContent = FirstName + '  ' + LastName
-
             var chatDiv = document.getElementById("chatBox");
             chatDiv.innerHTML = ''
 
@@ -38,6 +40,7 @@ function show(Id, FirstName, LastName, IsOnline) {
                 }
             }
             $("#chatBox").append(html);
+
             const myDiv = document.getElementById('chatBox');
             setTimeout(function () {
                 myDiv.scrollTop = myDiv.scrollHeight;

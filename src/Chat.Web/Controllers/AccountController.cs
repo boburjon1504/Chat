@@ -18,6 +18,7 @@ public class AccountController(IAccountService accountService) : Controller
         }catch (Exception ex)
         {
             ModelState.AddModelError("",ex.Message);
+            return View(user);
         }
         return View("Login", user);
     }

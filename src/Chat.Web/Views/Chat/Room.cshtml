@@ -1,22 +1,71 @@
 ﻿<h1 style="text-align:center">@ViewBag.roomId</h1>
+<div id="videGrid" video-grid>
+</div>
+
 
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
-
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 <script>
-    const roomId = @ViewBag.roomId;
-    const userId = null;
+    const roomId = `'@ViewBag.roomId'`;
+    var userId = null;
+    let localStream = null;
 
     const connection = new signalR.HubConnectionBuilder().withUrl("/meeting").build();
-    const startConnection = async () => {
-        await connection.start();
-        await connection.invoke("JoinMeetingAsync", 'roomId', '10');
+    const peer = new Peer();
+    peer.on('open', function (id) {
+        userId = id;
+        const startConnection = async () => {
+            await connection.start();
+            await connection.invoke("JoinMeetingAsync", roomId, userId);
 
-        connection.on("UserConnected", function(id){
-            console.log(`User connected: ${id}`);
+        }
+        startConnection();
+    })
+
+    const myVideo = document.createElement('video');
+    myVideo.muted = true;
+
+    const videoGrid = document.querySelector('[video-grid]')
+
+    navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true
+    }).then(stream => {
+        addVideoStream(myVideo, stream)
+
+        localStream = stream
+    })
+
+    connection.on("UserConnected", function (id) {
+        console.log(`User connected: ${id}`);
+
+        connectNewUser(id, localStream);
+    })
+
+    peer.on('call', call => {
+        call.answer(localStream)
+        const userVideo = document.createElement("video");
+        call.on('stream', userVideoStream => {
+            addVideoStream(userVideo, userVideoStream);
+        })  
+    })
+
+    const addVideoStream = (video, stream) => {
+        video.srcObject = stream;
+        video.addEventListener('loadedmetadata', () => {
+            video.play()
+        })
+        // $("#videGrid").append(video);
+        videoGrid.appendChild(video);
+    }
+
+    const connectNewUser = (userId, localStream) => {
+        const userVideo = document.createElement("video");
+        const call = peer.call(userId, localStream);
+
+        call.on('stream', userVideoStream => {
+            addVideoStream(userVideo, userVideoStream);
         })
     }
-    const
-
-    startConnection();
 
 </script>

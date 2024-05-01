@@ -31,7 +31,7 @@ public class ChatHub(IUserService userService,IChatOrchestrationService chatOrch
         }
         else
         {
-            await chatOrchestrationService.SaveMessageToChatAsync(senderId, receiverId, message, true);
+            await chatOrchestrationService.SaveMessageToChatAsync(senderId, receiverId, message, false);
         }
     }
     private async Task SetOnlineInformation(bool isOnline)

@@ -1,5 +1,5 @@
-﻿@using Chat.Domain.Entities;
-@model List<ChatRoom>
+﻿@using Chat.Web.Models
+@model ModelForView
 
 @{
     ViewData["Title"] = "Home Page";
@@ -17,7 +17,7 @@
                 <div class="userImg">
                     <img src="/css/account.jpg" class="cover">
                 </div>
-                <div>Bobur</div>
+                <div>@Model.User.FirstName  @Model.User.LastName</div>
             </div>
 
             <div class="seachChat">
@@ -30,9 +30,10 @@
             </div>
 
             <div class="chatList" id="chatList">
-                @foreach (var a in Model)
+                @foreach (var a in Model.Chats)
                 {
                     var friend = a.FirstUser is null ? a.SecondUser : a.FirstUser;
+                    var count = a.FirstUserId == Model.User.Id ? a.FirstUserUnReadMessageCount : a.SecondUserUnReadMessageCount;
                     <button class="block active gap-2" id="myButton" onclick="show('@friend.Id','@friend.FirstName','@friend.LastName','@friend.IsOnline')">
                         <div class="imgBx">
                             <img src="/css/account.jpg" class="cover" />
@@ -42,11 +43,15 @@
                                 <h5 id="name(@friend.Id" class="m-0">
                                     @friend.FirstName  @friend.LastName
                                 </h5>
-                                <p id="time(@friend.Id" class="time m-0">10:10</p>
+                                <p id="time(@friend.Id" class="time m-0">@a.LastMessage.SendAt.ToLocalTime().ToString("hh:mm tt")</p>
                             </div>
                             <div class="message_p">
-                                <p id="message(@friend.Id" class="mb-1">How to make Whatsapp clone using html and css</p>
-                                <b id="count(@friend.Id">1</b>
+                                <p id="message(@friend.Id" class="mb-1">@a.LastMessage.Body</p>
+                                @if (count > 0) {
+                                    <b id="count(@friend.Id">@count</b>
+                                }else{
+                                    <b id="count(@friend.Id" hidden>0</b>
+                                }
                             </div>
                         </div>
                     </button>

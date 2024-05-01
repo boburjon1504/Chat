@@ -1,5 +1,7 @@
+using Chat.Application.Common.Helpers;
 using Chat.Application.Common.Settings;
 using Chat.Application.Interfaces;
+using Chat.Infrastructure.Common.Helpers;
 using Chat.Infrastructure.Services;
 using Chat.Persistence.DataContext;
 using Chat.Persistence.Repositories;
@@ -16,6 +18,7 @@ builder.Services.AddDbContext<ChatDbContext>(o => o.UseNpgsql(builder.Configurat
 
 builder
     .Services
+    .AddScoped<IPasswordHasher, PasswordHasher>()
     .AddScoped<IUserRepository, UserRepository>()
     .AddScoped<IUserService, UserService>()
     .AddScoped<IChatOrchestrationService, ChatOrchestrationService>()
@@ -77,6 +80,6 @@ app.MapHub<ChatHub>("/mychat");
 app.MapHub<VideoHub>("/meeting");
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Chat}/{action=Index}");
+    pattern: "{controller=Account}/{action=Login}");
 
 app.Run();

@@ -1,6 +1,6 @@
 ﻿@using Chat.Domain.Entities;
 @model User
-
+@Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
 
 @{
     ViewData["Title"] = "Register";
@@ -42,3 +42,9 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
