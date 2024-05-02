@@ -13,7 +13,6 @@ connection.on("ReceiveMessage", function (id, firstName, lastName, isOnline, mes
         html += '<div class="message friendMessage">';
         html += '<p>' + message + '<br /><span>' + data.toLocaleTimeString() + '</span></p>';
         html += '</div>';
-        console.log("receive ishladi")
         $("#chatBox").append(html);
         m.textContent = message;
         time.textContent = data.toLocaleTimeString();
@@ -28,7 +27,7 @@ connection.on("ReceiveMessage", function (id, firstName, lastName, isOnline, mes
             h += '<div class="imgBx">' + '<img src="/css/account.jpg" class="cover" />' + '</div>';
             h += '<div class="details">' + '<div class="listHead mt-1">' + `<h5 id="name(${id}"` + 'class="m-0">';
             h += firstName + lastName;
-            h += '</h5>' + `<p id="time(${id}" class="time m-0">${new Date().toLocaleTimeString()}</p>` + '</div>'
+            h += '</h5>' + `<p id="time(${id}" class="time m-0">${data.toLocaleTimeString()}</p>` + '</div>'
             h += '<div class="message_p">';
             h += `<p id="message(${id}" class="mb-1">${message}</p>`;
             h += `<b id="count(${id}">1</b>` + '</div>' + '</div>' + '</button>';
@@ -37,7 +36,7 @@ connection.on("ReceiveMessage", function (id, firstName, lastName, isOnline, mes
             count.style.display = "block"
             count.textContent = (parseInt(count.textContent) + 1).toString();
             m.textContent = message;
-            time.textContent = data;
+            time.textContent = data.toLocaleTimeString();
         }
     }
 });
@@ -50,8 +49,6 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     var user = document.getElementById("friendId").textContent;
     var message = document.getElementById("inputMessage").value;
     //console.log(document.getElementById(`count(${user}`).textContent)
-    console.log(user);
-    console.log("ishladi shekili")
     var data = new Date();
     var html = '';
     html += '<div class="message myMessage">';

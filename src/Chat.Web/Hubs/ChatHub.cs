@@ -1,4 +1,5 @@
 ﻿using Chat.Application.Interfaces;
+using Chat.Domain.Entities;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Chat.Web.Hubs;

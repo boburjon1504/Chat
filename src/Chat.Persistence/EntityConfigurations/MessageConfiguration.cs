@@ -9,6 +9,6 @@ public class MessageConfiguration : IEntityTypeConfiguration<Message>
     {
         builder.HasOne<User>().WithMany().HasForeignKey(m => m.SenderId);
 
-        builder.HasOne<User>().WithOne().HasForeignKey<Message>(m => m.ReceiverId);
+        builder.HasOne<User>().WithMany().HasForeignKey(m => m.ReceiverId);
     }
 }
