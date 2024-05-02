@@ -36,7 +36,10 @@ public class HomeController(IUserService userService, IChatRoomService chatRoomS
     {
         if (term is null)
             return Ok(new List<User>());
-        var users = (userService.Get().Where(u =>
+        var userId = GetRequestUserId();
+        var users = (userService.Get()
+            .Where(u => u.Id != userId)
+            .Where(u =>
         u.FirstName.ToLower().Contains(term.ToLower()) ||
         u.LastName.ToLower().Contains(term.ToLower()) ||
         u.UserName.ToLower().Contains(term.ToLower())
@@ -58,9 +61,9 @@ public class HomeController(IUserService userService, IChatRoomService chatRoomS
 
     private Guid GetRequestUserId()
     {
-        var user = HttpContext.User.Claims.FirstOrDefault(c=>c.Type == "UserId");
+        var user = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
 
         return user is null ? Guid.Empty : Guid.Parse(user.Value);
     }
-    
+
 }
